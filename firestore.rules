@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Safety Primitives
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    function isAdmin() { 
+      return isSignedIn() && 
+             request.auth.token.email == "aghna1011@gmail.com" && 
+             request.auth.token.email_verified == true; 
+    }
+
+    // Broad Read Access for Public
+    match /config/{item} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /links/{link} {
+      allow read, list: if true;
+      allow write: if isAdmin();
+    }
+
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

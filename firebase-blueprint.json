@@ -1,0 +1,39 @@
+{
+  "entities": {
+    "profile": {
+      "title": "Profile",
+      "description": "User profile information",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Full name" },
+        "bio": { "type": "string", "description": "Short biography" },
+        "location": { "type": "string", "description": "User location" },
+        "avatarUrl": { "type": "string", "description": "URL to profile picture" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last update timestamp" }
+      },
+      "required": ["name", "bio", "location"]
+    },
+    "link": {
+      "title": "Link",
+      "description": "Social or external link",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "description": "Display text for the link" },
+        "url": { "type": "string", "description": "Destination URL" },
+        "icon": { "type": "string", "description": "Lucide icon name" },
+        "order": { "type": "number", "description": "Display order" }
+      },
+      "required": ["title", "url", "icon", "order"]
+    }
+  },
+  "firestore": {
+    "/config/profile": {
+      "schema": "profile",
+      "description": "Single document for site configuration"
+    },
+    "/links/{linkId}": {
+      "schema": "link",
+      "description": "Collection of bio links"
+    }
+  }
+}
